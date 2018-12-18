@@ -1,23 +1,24 @@
+// 应用根组件
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+    <div id="app">
+        <router-view/>
+        <FooterGuide v-show="$route.meta.showRooter"/>
+    </div>
 </template>
 
 <script>
+import FooterGuide from "./components/FootGuide/FootGuide";
 export default {
-  name: 'App'
-}
+    name: "App",
+    components: {
+        FooterGuide
+    }
+};
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+#app
+    width 100%
+    height 100%
+    background #f5f5f5
 </style>
