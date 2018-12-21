@@ -2,8 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 // 入口js
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App'
 import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -11,7 +13,9 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store, // 使用vuex
   // components: { App },
   render: h => h(App),
   template: '<App/>'
+  
 })

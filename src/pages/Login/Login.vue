@@ -3,7 +3,7 @@
     <section class="loginContainer">
         <div class="loginInner">
             <div class="login_header">
-                <h2 class="login_logo">外卖</h2>
+                <h2 class="login_logo">登录</h2>
                 <div class="login_header_title">
                     <a href="javascript:;" :class="{on: loginWay}" @click="loginWay=true">短信登录</a>
                     <a href="javascript:;" :class="{on: !loginWay}" @click="loginWay=false">密码登录</a>
@@ -72,9 +72,10 @@
                                 >
                                 <img
                                     class="get_verification"
-                                    src="./images/captcha.svg"
+                                    src="http://localhost:4000/captcha"
                                     alt="captcha"
                                     ref="captcha"
+                                    @click="getCaptcha"
                                 >
                             </section>
                         </section>
@@ -88,15 +89,14 @@
             </a>
         </div>
 
-        <!-- <AlertTip :alertText="alertText" v-show="alertShow" @closeTip="closeTip"/> -->
+        <AlertTip :alertText="alertText" v-show="alertShow" @closeTip="closeTip"/>
     </section>
 </template>
 
 <script>
+import AlertTip from '../../components/AlertTip/AlertTip.vue'
+import {reqSendcode,reqSmsLogin,reqLogin} from '../../api'
 export default {
-    data() {
-        return {};
-    },
     data() {
         return {
             loginWay: true, // true代表短信登陆, false代表密码
@@ -111,10 +111,92 @@ export default {
             alertShow: false // 是否显示警告框
         };
     },
-
+    components:{
+        AlertTip
+    },
     computed: {
         rightPhone() {
             return /^1\d{10}$/.test(this.phone);
+        }
+    },
+    methods:{
+        //异步获取短信验证码
+        async getCode(){
+            if(!this.computeTime){
+                this.computeTime = 30;
+                this.interval = setInterval(()=>{
+                    this.computeTime--
+                    if(this.computeTime <= 0){
+                        clearInterval(this.interval)
+                    }
+                },1000)
+
+                const result = await reqSendcode(this.phone)
+                if(result.code == 1){
+                    //显示提示，停止倒计时
+                    this.showAlert(result.msg)
+                    if(this.computeTime){
+                        this.computeTime = 0
+                        clearInterval(this.interval)
+                    }
+                }
+            }
+        },
+        async login(){
+            //短信登录
+            let result
+            if(this.loginWay){
+                const {rightPhone,phone,code} = this
+                if(!rightPhone){
+                    this.showAlert("手机号不正确")
+                    return
+                }else if(!/^\d{6}$/.test(code)){
+                    this.showAlert("验证码不正确")
+                    return
+                }
+                result = await reqSmsLogin(phone,code);
+            }else{//密码登录
+                const {name,pwd,captcha} = this
+                if(!name){
+                    this.showAlert("请输入用户名")
+                    return
+                }else if(!pwd){
+                    this.showAlert("请输入密码")
+                    return
+                }else if(!captcha){
+                    this.showAlert("请输入验证码")
+                    return
+                }
+                result = await reqLogin(name,pwd,captcha)
+            }
+            if(this.computeTime){
+                this.computeTime = 0
+                clearInterval(this.interval)
+            }
+            //处理结果数据
+            if(result.code == 0){
+                const user = result.data
+                //保存到state中国
+
+                this.$router.replace('/profile')
+            }else{
+                const msg = result.msg
+                this.getCaptcha()
+                this.showAlert(msg)
+            }
+
+        },
+        closeTip(){
+            this.alertText = ''
+            this.alertShow = false
+        },
+        showAlert(alertText){
+            this.alertText = alertText
+            this.alertShow = true
+        },
+        //获取新的图片验证码
+        getCaptcha(e){
+            e.target.src = "http://localhost:4000/captcha?time="+Date.now()
         }
     }
 };
