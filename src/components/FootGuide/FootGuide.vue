@@ -88,7 +88,7 @@ export default {
         margin 5px
         color #999999
         &.on
-            color #02a774
+            color #FF4949
         span
             font-size 12px
             margin-top 2px

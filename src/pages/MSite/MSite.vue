@@ -3,12 +3,17 @@
     <section class="msite">
         <!--首页头部-->
         <HeaderTop :title="address.name">
-            <span class="header_search" slot="left">
+            <router-link class="header_search" slot="left" to="/search">
                 <i class="iconfont icon-gs-search"></i>
-            </span>
-            <span class="header_login" slot="right">
-                <span class="header_login_text">登录|注册</span>
-            </span>
+            </router-link>
+            <router-link class="header_login" slot="right" :to="userInfo._id?'userinfo':'/login'">
+                <span class="header_login_text" v-if="!userInfo._id">
+                    登录|注册
+                </span>
+                <span class="header_login_text" v-else>
+                    <i class="iconfont icon-gs-user"></i>
+                </span>
+            </router-link>
         </HeaderTop>
         <!--首页导航-->
         <nav class="msite_nav">
@@ -57,7 +62,7 @@ export default {
         ShopList
     },
     computed:{
-        ...mapState(['address','categorys']),
+        ...mapState(['address','categorys','userInfo']),
         //生成2维数组
         categorysArr () {
             const {categorys} = this;
@@ -104,7 +109,7 @@ export default {
 .msite // 首页
     width 100%
     .header
-        background-color #02a774
+        background-color #FF4949
         position fixed
         z-index 100
         left 0
@@ -178,7 +183,7 @@ export default {
                             color #666
             .swiper-pagination
                 >span.swiper-pagination-bullet-active
-                    background #02a774
+                    background #FF4949
     .msite_shop_list
         top-border-1px(#e4e4e4)
         margin-top 10px

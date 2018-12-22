@@ -35,10 +35,10 @@ export const reqLogin = ({
 export const reqSendcode = (phone) => ajax(BASE_URL + '/sendcode', {phone})
 
 // 8、手机号验证码登陆
-export const reqSmsLogin = ({
+export const reqSmsLogin = (
   phone,
   code
-}) => ajax(BASE_URL + '/login_sms', {
+) => ajax(BASE_URL + '/login_sms', {
   phone,
   code
 }, 'POST')

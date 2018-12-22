@@ -30,7 +30,7 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus'>
 @import '../../common/stylus/mixins.styl'
 .header
-    background-color #02a774
+    background-color #FF4949
     position fixed
     z-index 300
     left 0

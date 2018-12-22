@@ -167,7 +167,7 @@ export default {
                     this.showAlert("请输入验证码")
                     return
                 }
-                result = await reqLogin(name,pwd,captcha)
+                result = await reqLogin({name,pwd,captcha})
             }
             if(this.computeTime){
                 this.computeTime = 0
@@ -175,13 +175,14 @@ export default {
             }
             //处理结果数据
             if(result.code == 0){
-                const user = result.data
+                const userInfo = result.data
+                console.log(userInfo)
                 //保存到state中国
-
+                this.$store.dispatch('recorderUser',userInfo)
                 this.$router.replace('/profile')
             }else{
-                const msg = result.msg
                 this.getCaptcha()
+                const msg = result.msg
                 this.showAlert(msg)
             }
 
@@ -216,7 +217,7 @@ export default {
             .login_logo
                 font-size 40px
                 font-weight bold
-                color #02a774
+                color #FF4949
                 text-align center
             .login_header_title
                 padding-top 40px
@@ -228,9 +229,9 @@ export default {
                     &:first-child
                         margin-right 40px
                     &.on
-                        color #02a774
+                        color #FF4949
                         font-weight 700
-                        border-bottom 2px solid #02a774
+                        border-bottom 2px solid #FF4949
         .login_content
             >form
                 >div
@@ -247,7 +248,7 @@ export default {
                         outline 0
                         font 400 14px Arial
                         &:focus
-                            border 1px solid #02a774
+                            border 1px solid #FF4949
                     .login_message
                         position relative
                         margin-top 16px
@@ -291,7 +292,7 @@ export default {
                                     float right
                                     color #ddd
                             &.on
-                                background #02a774
+                                background #FF4949
                             >.switch_circle
                                 position absolute
                                 top -1px
@@ -311,7 +312,7 @@ export default {
                         font-size 14px
                         line-height 20px
                         >a
-                            color #02a774
+                            color #FF4949
                 .login_submit
                     display block
                     width 100%

@@ -3,18 +3,18 @@
     <section class="profile">
         <HeaderTop :title="title"></HeaderTop>
         <section class="profile-number">
-            <router-link to="/login">
+            <router-link :to="userInfo._id?'/userinfo':'/login'">
                 <a href="javascript:" class="profile-link">
                     <div class="profile_image">
                         <i class="iconfont icon-gs-user"></i>
                     </div>
                     <div class="user-info">
-                        <p class="user-info-top">登录/注册</p>
+                        <p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>
                         <p>
                             <span class="user-icon">
                                 <i class="iconfont icon-gs-phone"></i>
                             </span>
-                            <span class="icon-mobile-number">暂无绑定手机号</span>
+                            <span class="icon-mobile-number">{{userInfo.phone? userInfo.phone:'暂无绑定手机号'}}</span>
                         </p>
                     </div>
                     <span class="arrow">
@@ -96,13 +96,16 @@
                     </span>
                 </div>
             </a>
+            <mt-button @click="logout" class="logout" type="danger">退出登录</mt-button>
         </section>
     </section>
 </template>
 
 <script>
 import HeaderTop from "../../components/HeaderTop/HeaderTop";
-
+import {mapState} from "vuex"
+import {MessageBox,Toast} from 'mint-ui'
+import {logout} from '../../api'
 export default {
     data() {
         return {
@@ -112,6 +115,21 @@ export default {
     components: {
         HeaderTop
     },
+    computed:{
+        ...mapState(['userInfo'])
+    },
+    methods:{
+        logout () {
+            MessageBox.confirm('确定退出登陆吗?').then(action => { 
+                this.$store.dispatch('logout') 
+                Toast('退出成功')
+            },
+            cancel=>{
+                console.log('click cancel')
+            }
+            ); 
+        } 
+    }
 
 };
 </script>
@@ -122,7 +140,7 @@ export default {
     width 100%
     overflow hidden
     .header
-        background-color #02a774
+        background-color #FF4949
         position fixed
         z-index 100
         left 0
@@ -166,7 +184,7 @@ export default {
             clearFix()
             position relative
             display block
-            background #02a774
+            background #FF4949
             padding 20px 10px
             .profile_image
                 float left
@@ -252,6 +270,9 @@ export default {
         top-border-1px(#e4e4e4)
         margin-top 10px
         background #fff
+        .logout
+            width 100%
+            margin-top:20px
         .my_order
             display flex
             align-items center
@@ -266,13 +287,13 @@ export default {
                 >.iconfont
                     font-size 24px
                 .icon-gs-order
-                    color #02a774
+                    color #FF4949
                 .icon-gs-scores
                     color #ff5f3e
                 .icon-gs-vip
                     color #f90
                 .icon-gs-service
-                    color #02a774
+                    color #FF4949
             .my_order_div
                 width 100%
                 padding 18px 0 18px 0
