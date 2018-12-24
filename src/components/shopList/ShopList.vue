@@ -2,7 +2,11 @@
 <template>
     <div class="shop_container">
         <ul class="shop_list" v-if="shops.length">
-            <li class="shop_li border-1px" v-for="(shop, index) in shops" :key="index">
+            <li class="shop_li border-1px" 
+            v-for="(shop, index) in shops" 
+            :key="index"
+            @click="$router.push('/shop')"
+            >
                 <a>
                     <div class="shop_left">
                         <img class="shop_img" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=467364219,1485499899&fm=200&gp=0.jpg">

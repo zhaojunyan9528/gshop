@@ -5,5 +5,9 @@ export default {
   address: {}, // 地 址 信 息 对 象 
   categorys: [], // 分 类 数 组 
   shops: [], // 商家数组
-  userInfo: {} // 用户信息
+  userInfo: {}, // 用户信息
+  goods: [], // 商 品 列 表 
+  ratings: [], // 商 家 评 价 列 表 
+  info: {}, // 商 家 信 息
+
 }
