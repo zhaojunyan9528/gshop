@@ -9,7 +9,9 @@ import {
   RECEIVE_RATINGS,
   RECEIVE_INFO,
   INCREMENT_FOOD_COUNT,
-  DECREMENT_FOOD_COUNT
+  DECREMENT_FOOD_COUNT,
+  CLEAR_CART,
+  RECEIVE_SEARCH_SHOPS
 } from './mutation-types'
 import Vue from 'vue'
 export default {
@@ -57,6 +59,7 @@ export default {
     if (!food.count) {
       // food.count = 1
       Vue.set(food, 'count', 1)
+      state.cartFoods.push(food)
     } else {
       food.count++
     }
@@ -66,7 +69,23 @@ export default {
   }) {
     if (food.count) {
       food.count--
+      if (food.count === 0) {
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
+      }
     }
+  },
+  [CLEAR_CART] (state) {
+    // 清除food中的count
+    state.cartFoods.forEach(food => {
+      food.count = 0
+    })
+    // 移除购物车中所有购物项
+    state.cartFoods = []
+  },
+  [RECEIVE_SEARCH_SHOPS] (state, {
+    searchShops
+  }) {
+    state.searchShops = searchShops
   }
 
 }

@@ -54,7 +54,7 @@
                 </ul>
             </div>
 
-            <!-- <ShopCart /> -->
+            <ShopCart />
         </div>
         <Food :food="food" ref="food"></Food>
     </div>
@@ -65,6 +65,7 @@ import { mapState } from "vuex";
 import BScroll from "better-scroll";
 import CartControl from "../../../components/CartControl/CartControl.vue";
 import Food from "../../../components/Food/Food";
+import ShopCart from '../../../components/ShopCart/ShopCart'
 export default {
     data() {
         return {
@@ -76,7 +77,8 @@ export default {
 
     components: {
         CartControl,
-        Food
+        Food,
+        ShopCart
     },
     computed: {
         ...mapState(["goods"]),
@@ -138,7 +140,6 @@ export default {
         },
         showFood(food) {
             this.food = food
-            console.log(this.$refs.food)
             this.$refs.food.toggleShow()
         }
     }

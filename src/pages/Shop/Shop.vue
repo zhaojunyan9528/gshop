@@ -4,10 +4,12 @@
         <ShopHeader/>
         <div class="tab">
             <div class="tab-item" v-for="(tab,index) in tabArr" :key="index">
-                <router-link :to="tab.url">{{tab.name}}</router-link>
+                <router-link :to="tab.url" replace>{{tab.name}}</router-link>
             </div>
         </div>
-        <router-view/>
+        <keep-alive>
+            <router-view/>
+        </keep-alive>
     </div>
 </template>
 
