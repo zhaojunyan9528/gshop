@@ -11,7 +11,7 @@ import Shop from '../pages/Shop/Shop.vue'
 import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods.vue'
 import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings.vue'
 import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo.vue'
-
+import Test from '../pages/Test/Test.vue'
 const MSite = () => import('../pages/MSite/MSite.vue')
 const Search = () => import('../pages/Search/Search.vue')
 const Order = () => import('../pages/Order/Order.vue')
@@ -87,6 +87,11 @@ export default new Router({
           redirect: '/shop/goods'
         }
       ]
-    }
+    },
+    {
+        path: '/test',
+        name: 'Test',
+        component: Test
+      }
   ]
 })
