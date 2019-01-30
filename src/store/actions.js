@@ -37,7 +37,7 @@ export default {
       commit(RECEIVE_ADDRESS, {
         address
       })
-    }
+    }  
   },
   // 异步获取食品分类列表
   async getCategorys ({

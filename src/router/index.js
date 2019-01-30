@@ -12,6 +12,8 @@ import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods.vue'
 import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings.vue'
 import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo.vue'
 import Test from '../pages/Test/Test.vue'
+import Test1 from '../pages/test1/test1.vue'
+
 const MSite = () => import('../pages/MSite/MSite.vue')
 const Search = () => import('../pages/Search/Search.vue')
 const Order = () => import('../pages/Order/Order.vue')
@@ -89,9 +91,14 @@ export default new Router({
       ]
     },
     {
-        path: '/test',
-        name: 'Test',
-        component: Test
-      }
+      path: '/test',
+      name: 'Test',
+      component: Test
+    },
+    {
+      path: '/test1',
+      name: 'Test1',
+      component: Test1
+    }
   ]
 })

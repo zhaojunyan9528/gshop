@@ -6,6 +6,9 @@
         <p>{{date | filterDate('YYYY-MM-DD')}}</p>
         <div v-upper-text="msg">{{msg}}</div>
         <div v-lower-text="msg">{{msg}}</div>
+        <Button @click="handleClick">按钮</Button>
+        <ComponentA ref="comA" @click.native="comA">click</ComponentA>
+
     </div>
     
 </template>
@@ -13,6 +16,9 @@
 <script>
 import format from 'date-fns/format'
 import Vue from 'vue'
+import Button from '../../components/Button/Button'
+import {MessageBox,Toast} from 'mint-ui'
+import ComponentA from '../../components/ComponentA/ComponentA'
 Vue.directive('upper-text', function(el,binding){
     el.innerHTML = binding.value.toUpperCase()
 })
@@ -34,7 +40,8 @@ export default {
         }
     },
   components: {
-      
+      Button,
+      ComponentA
   },
 
   computed: {
@@ -42,7 +49,21 @@ export default {
   },
 
 
-  methods: {}
+  methods: {
+      handleClick(e){
+        MessageBox.confirm('提示').then(action=>{
+            console.log('confirm')
+        },
+            cancel=>{
+                console.log('cancel')
+            }
+        )
+      },
+      comA() {
+          const comA = this.$refs.comA;
+          comA.sayHello();
+      }
+  }
 }
 
 </script>
